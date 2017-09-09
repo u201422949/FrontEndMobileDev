@@ -1,123 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context="pe.edu.upc.homeassistant.RegisterActivity">
+    android:background="@color/colorPrimary"
+    android:animateLayoutChanges="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_register_padding"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="20dp">
+        android:animateLayoutChanges="true">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Registro"
-            android:textSize="30dp"/>
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/hint_nombre_apellido" />
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/hint_correo" />
-
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/hint_celular" />
-
-        <EditText
-            android:id="@+id/editText4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/hint_fecha_nacido" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:text="Sexo:" />
-
-            <RadioButton
-                android:id="@+id/radioButton4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="M" />
-
-            <RadioButton
-                android:id="@+id/radioButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="F" />
-        </RadioGroup>
-
-        <EditText
-            android:id="@+id/editText5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/hint_direccion" />
-
-        <EditText
-            android:id="@+id/editText6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/hint_clave" />
-
-        <EditText
-            android:id="@+id/editText7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/hint_repite_clave" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-        <Button
-            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Guardar" />
+            android:text="@string/register_title"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="@dimen/login_logo_mg_bottom"
+            android:textSize="25dp"/>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/login_txt_edt"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/TextAppearanceErrorLogin">
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_edt_name"
+                android:maxLines="1"
+                android:inputType="textCapWords"
+                android:padding="@dimen/login_edt_pd"
+                android:textColor="@color/login_txt_edt"
+                android:textColorHint="@color/login_hnt_edt"
+                android:backgroundTint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/login_txt_edt"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/TextAppearanceErrorLogin">
+
+            <EditText
+                android:id="@+id/edtMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_edt_mail"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:padding="@dimen/login_edt_pd"
+                android:textColor="@color/login_txt_edt"
+                android:textColorHint="@color/login_hnt_edt"
+                android:backgroundTint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/login_txt_edt"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/TextAppearanceErrorLogin">
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_edt_phone"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:padding="@dimen/login_edt_pd"
+                android:textColor="@color/login_txt_edt"
+                android:textColorHint="@color/login_hnt_edt"
+                android:backgroundTint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/login_txt_edt"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/TextAppearanceErrorLogin">
+
+            <EditText
+                android:id="@+id/edtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_edt_address"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:padding="@dimen/login_edt_pd"
+                android:textColor="@color/login_txt_edt"
+                android:textColorHint="@color/login_hnt_edt"
+                android:backgroundTint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_txt_gender"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton android:id="@+id/rbtnMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_rbtn_male"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/colorAccent"
+                    android:checked="true"/>
+                <RadioButton android:id="@+id/rbtnFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_rbtn_female"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/colorAccent"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_txt_date"
+            android:textColor="@android:color/white"
+            android:textSize="18dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            style="@style/CalendarStyle"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/login_txt_edt"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/TextAppearanceErrorLogin">
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_edt_password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="@dimen/login_edt_pd"
+                android:textColor="@color/login_txt_edt"
+                android:textColorHint="@color/login_hnt_edt"
+                android:backgroundTint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilRepeatPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/login_txt_edt"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/TextAppearanceErrorLogin">
+
+            <EditText
+                android:id="@+id/edtRepeatPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_edt_repeat_password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="@dimen/login_edt_pd"
+                android:textColor="@color/login_txt_edt"
+                android:textColorHint="@color/login_hnt_edt"
+                android:backgroundTint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/login_btn_pd"
+            android:text="@string/register_btn_save"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
-
 </ScrollView>

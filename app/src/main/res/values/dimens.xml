@@ -4,5 +4,17 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
-    <dimen name="nav_header_height">140dp</dimen>
+    <dimen name="nav_header_height">250dp</dimen>
+
+    <!-- INIT LOGIN -->
+    <dimen name="login_logo_mg_bottom">10dp</dimen>
+    <dimen name="login_edt_dw_pd">5dp</dimen>
+    <dimen name="login_edt_pd">10dp</dimen>
+    <dimen name="login_edt_mg_bottom">5dp</dimen>
+    <dimen name="login_btn_pd">10dp</dimen>
+    <!-- END LOGIN -->
+
+    <!-- INIT REGISTER -->
+    <dimen name="dimen_register_padding">20dp</dimen>
+    <!-- END REGISTER -->
 </resources>

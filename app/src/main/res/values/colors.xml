@@ -2,5 +2,11 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#E2574C</color>
+
+    <!-- INIT LOGIN -->
+    <color name="login_hnt_edt">#FFFFFF</color>
+    <color name="login_txt_edt">#FFFFFF</color>
+    <color name="login_error_edt">#FFFFFF</color>
+    <!-- END LOGIN -->
 </resources>
