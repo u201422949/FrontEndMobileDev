@@ -3,11 +3,10 @@
 
     <!-- INIT NAV DRAWER -->
     <string name="title_activity_main_nav">MainNavActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_drawer_services">Servicios Solicitados</string>
-    <string name="title_drawer_settings">Configuración</string>
-    <string name="title_drawer_signout">Cerrar Sesión</string>
+    <string name="title_menu_request">Solicitud</string>
+    <string name="title_menu_settings">Configuración</string>
+    <string name="title_menu_history">Historial</string>
+    <string name="title_menu_favourites">Favoritos</string>
     <!-- END NAV DRAWER -->
 
 
@@ -47,5 +46,9 @@
     <string name="recovery_edt_mail">Correo electrónico</string>
     <string name="recovery_btn_save">Enviar</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_other">OtherActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
     <!-- END RECOVERY -->
 </resources>
