@@ -1,4 +1,4 @@
-package pe.edu.upc.homeassistant.models;
+package pe.edu.upc.homeassistant.model;
 
 public class Skill {
 

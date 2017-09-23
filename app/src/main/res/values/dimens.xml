@@ -18,13 +18,17 @@
     <dimen name="dimen_register_padding">20dp</dimen>
     <!-- END REGISTER -->
 
+    <!-- INIT NEW REQUEST -->
+    <dimen name="dimen_new_request_padding">15dp</dimen>
+    <!-- END NEW REQUEST -->
+
     <!-- INIT CARDVIEW -->
     <dimen name="item_offset">10dp</dimen>
     <dimen name="detail_backdrop_height">250dp</dimen>
     <dimen name="backdrop_title">30dp</dimen>
     <dimen name="backdrop_subtitle">18dp</dimen>
     <dimen name="card_margin">5dp</dimen>
-    <dimen name="card_album_radius">0dp</dimen>
+    <dimen name="card_album_radius">4dp</dimen>
     <dimen name="album_cover_height">160dp</dimen>
     <dimen name="album_title_padding">10dp</dimen>
     <dimen name="album_title">15sp</dimen>

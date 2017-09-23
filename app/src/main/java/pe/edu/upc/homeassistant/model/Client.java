@@ -1,6 +1,6 @@
-package pe.edu.upc.homeassistant.models;
+package pe.edu.upc.homeassistant.model;
 
-public class User {
+public class Client {
 
     private String name;
     private String address;

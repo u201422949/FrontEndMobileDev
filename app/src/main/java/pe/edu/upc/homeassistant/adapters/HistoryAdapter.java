@@ -12,22 +12,22 @@ import java.util.List;
 import pe.edu.upc.homeassistant.R;
 import pe.edu.upc.homeassistant.model.Request;
 
-public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     private List<Request> requestList;
 
-    public RequestAdapter(List<Request> requestList) {
+    public HistoryAdapter(List<Request> requestList) {
         this.requestList = requestList;
     }
 
     @Override
-    public RequestAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HistoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_history_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RequestAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(HistoryAdapter.ViewHolder holder, int position) {
         holder.imgThumbnail.setImageResource(R.mipmap.ic_launcher);
         holder.txtDescription.setText(requestList.get(position).getDescription());
         holder.txtTitle.setText(requestList.get(position).getSubject());

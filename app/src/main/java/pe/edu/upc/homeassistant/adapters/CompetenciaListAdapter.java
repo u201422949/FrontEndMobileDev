@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 import java.util.List;
 
 import pe.edu.upc.homeassistant.R;
-import pe.edu.upc.homeassistant.models.Skill;
+import pe.edu.upc.homeassistant.model.Skill;
 
 public class CompetenciaListAdapter extends BaseAdapter{
 

@@ -1,13 +1,12 @@
 <resources>
     <string name="app_name">Home Assistant Cliente</string>
 
-    <!-- INIT NAV DRAWER -->
-    <string name="title_activity_main_nav">MainNavActivity</string>
+    <!-- INIT MENU -->
     <string name="title_menu_request">Solicitud</string>
     <string name="title_menu_settings">Configuración</string>
     <string name="title_menu_history">Historial</string>
     <string name="title_menu_favourites">Favoritos</string>
-    <!-- END NAV DRAWER -->
+    <!-- END MENU -->
 
 
     <string name="action_settings">Settings</string>
@@ -40,7 +39,6 @@
     <string name="register_btn_save">Guardar</string>
     <!-- END REGISTER -->
 
-
     <!-- INIT RECOVERY -->
     <string name="recovery_title">Recuperar Contraseña</string>
     <string name="recovery_edt_mail">Correo electrónico</string>
@@ -51,4 +49,20 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <!-- END RECOVERY -->
+
+    <!-- INIT NEW REQUEST -->
+    <string name="new_request_title">Nueva Solicitud</string>
+    <string name="new_request_description">Descripción</string>
+    <string name="new_request_subject">Asunto</string>
+    <string name="new_request_request_type">Tipo Solicitud</string>
+    <string name="new_request_send">Enviar</string>
+
+    <string-array name="array_request_type">
+        <item>Carpintero</item>
+        <item>Plomero</item>
+        <item>Albañil</item>
+        <item>Pintor</item>
+        <item>Mecánico</item>
+    </string-array>
+    <!-- END NEW REQUEST -->
 </resources>
