@@ -39,6 +39,7 @@ public class HistoryFragment extends Fragment{
         recyclerRequest.setAdapter(historyAdapter);
         recyclerRequest.setLayoutManager(layoutManager);
 
+
         return view;
     }
 }

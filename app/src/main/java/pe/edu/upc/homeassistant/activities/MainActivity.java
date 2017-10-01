@@ -17,6 +17,7 @@ import pe.edu.upc.homeassistant.fragments.RequestFragment;
 
 public class MainActivity extends AppCompatActivity{
 
+    //TODO: Put in order the activity
     private static final String SELECTED_ITEM = "arg_selected_item";
 
     private BottomNavigationView mBottomNav;

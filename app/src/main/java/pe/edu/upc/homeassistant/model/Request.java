@@ -1,12 +1,16 @@
 package pe.edu.upc.homeassistant.model;
 
+import android.os.Bundle;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Request implements Serializable{
 
     private Client client;
-    private Expert expert;
-    private RequestType requestType;
+    private List<Expert> experts;
+    private Skill skill;
     private String description;
     private String subject;
 
@@ -18,20 +22,12 @@ public class Request implements Serializable{
         this.client = client;
     }
 
-    public Expert getExpert() {
-        return expert;
+    public Skill getSkill() {
+        return skill;
     }
 
-    public void setExpert(Expert expert) {
-        this.expert = expert;
-    }
-
-    public RequestType getRequestType() {
-        return requestType;
-    }
-
-    public void setRequestType(RequestType requestType) {
-        this.requestType = requestType;
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 
     public String getDescription() {
@@ -50,27 +46,21 @@ public class Request implements Serializable{
         this.subject = subject;
     }
 
-    public Request(RequestType requestType, String description, String subject) {
-        this.requestType = requestType;
+    public Request(Skill skill, String description, String subject) {
+        this.skill = skill;
         this.description = description;
         this.subject = subject;
     }
 
-    public Request(Client client, RequestType requestType, String description, String subject) {
+    public Request(Client client, Skill skill, String description, String subject) {
         this.client = client;
-        this.requestType = requestType;
-        this.description = description;
-        this.subject = subject;
-    }
-
-    public Request(Client client, Expert expert, RequestType requestType, String description, String subject) {
-        this.client = client;
-        this.expert = expert;
-        this.requestType = requestType;
+        this.skill = skill;
         this.description = description;
         this.subject = subject;
     }
 
     public Request() {
     }
+
+
 }

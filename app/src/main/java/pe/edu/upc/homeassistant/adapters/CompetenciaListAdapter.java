@@ -57,7 +57,7 @@ public class CompetenciaListAdapter extends BaseAdapter{
         Skill competencia = getItem(position);
 
         if (competencia != null){
-            holder.checkBox.setText(competencia.getCompetencia());
+            holder.checkBox.setText(competencia.getName());
         }
 
         return convertView;

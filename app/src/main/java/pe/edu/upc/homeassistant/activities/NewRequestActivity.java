@@ -3,7 +3,6 @@ package pe.edu.upc.homeassistant.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,13 +10,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import pe.edu.upc.homeassistant.R;
 import pe.edu.upc.homeassistant.model.Request;
-import pe.edu.upc.homeassistant.model.RequestType;
+import pe.edu.upc.homeassistant.model.Skill;
 
 import static pe.edu.upc.homeassistant.Constants.EXTRA_REQUEST;
 
@@ -61,12 +59,15 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view == btnSend){
-            RequestType requestType = new RequestType(spnRequestType.getSelectedItemPosition(), (String) spnRequestType.getSelectedItem());
-            Request request = new Request(requestType, edtDescription.getText().toString(), edtSubject.getText().toString());
-            Intent returnIntent = new Intent();
+            Skill skill = new Skill(spnRequestType.getSelectedItemPosition(), (String) spnRequestType.getSelectedItem());
+            Request request = new Request(skill, edtDescription.getText().toString(), edtSubject.getText().toString());
+            /*Intent returnIntent = new Intent();
             returnIntent.putExtra(EXTRA_REQUEST, request);
             setResult(RESULT_OK, returnIntent);
-            finish();
+            finish();*/
+            Intent intent = new Intent(NewRequestActivity.this, ExpertsActivity.class);
+            intent.putExtra("",request);
+            startActivityForResult(intent, 2);
         }
     }
 }

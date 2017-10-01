@@ -28,6 +28,11 @@
         </activity>
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.RecoveryActivity" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main" />
+        <activity android:name=".activities.NewRequestActivity" />
+        <activity android:name=".activities.ExpertsActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -41,15 +46,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".activities.MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main" />
-        <activity
-            android:name=".activities.NewRequestActivity"
-            android:label="@string/title_activity_other" />
+
     </application>
 
 </manifest>

@@ -1,27 +1,35 @@
 package pe.edu.upc.homeassistant.model;
 
-public class Skill {
+import java.io.Serializable;
 
-    private String competencia;
-    private Boolean state;
+public class Skill implements Serializable{
 
-    public Skill(String com){
-        this.competencia = com;
+    private int code;
+    private String name;
+
+    public int getCode() {
+        return code;
     }
 
-    public String getCompetencia() {
-        return competencia;
+    public Skill setCode(int code) {
+        this.code = code;
+        return this;
     }
 
-    public void setCompetencia(String competencia) {
-        this.competencia = competencia;
+    public String getName() {
+        return name;
     }
 
-    public Boolean getState() {
-        return state;
+    public Skill setName(String name) {
+        this.name = name;
+        return this;
     }
 
-    public void setState(Boolean state) {
-        this.state = state;
+    public Skill(int code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+
+    public Skill() {
     }
 }
