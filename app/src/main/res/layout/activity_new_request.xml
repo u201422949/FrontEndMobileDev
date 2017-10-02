@@ -59,8 +59,9 @@
                     android:inputType="textCapWords"
                     android:maxLines="20"
                     android:padding="@dimen/login_edt_pd"
-                    android:textColor="@color/login_txt_edt"
-                    android:textColorHint="@color/login_hnt_edt"
+                    android:gravity="top"
+                    android:textColor="@color/request_txt_edt"
+                    android:textColorHint="@color/request_hnt_edt"
                     android:backgroundTint="@color/colorAccent"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -70,26 +71,27 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/login_txt_edt"
                 app:errorEnabled="true"
-                app:errorTextAppearance="@style/TextAppearanceErrorLogin">
+                app:errorTextAppearance="@style/TextAppearanceErrorRequest">
 
                 <EditText
                     android:id="@+id/edtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorAccent"
                     android:hint="@string/new_request_description"
                     android:inputType="textMultiLine"
-                    android:maxLines="12"
                     android:lines="12"
+                    android:maxLines="12"
                     android:padding="@dimen/login_edt_pd"
-                    android:textColor="@color/login_txt_edt"
-                    android:textColorHint="@color/login_hnt_edt"
-                    android:backgroundTint="@color/colorAccent"/>
+                    android:textColor="@color/request_txt_edt"
+                    android:textColorHint="@color/request_hnt_edt" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btnSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
                 android:text="@string/new_request_send"/>
         </LinearLayout>
 </LinearLayout>

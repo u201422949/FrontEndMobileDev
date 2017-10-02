@@ -18,11 +18,14 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="TextAppearanceErrorLogin" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/login_error_edt</item>
+    </style>
+
+    <style name="TextAppearanceErrorRequest" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/request_error_edt</item>
     </style>
 
 </resources>

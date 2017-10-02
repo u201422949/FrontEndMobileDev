@@ -11,6 +11,7 @@ public class Expert implements Serializable{
 
     private String name;
     private String mail;
+    private String description;
     private long date;
     private double gender;
     private String password;
@@ -72,6 +73,22 @@ public class Expert implements Serializable{
 
     public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public Expert(String name, String mail) {

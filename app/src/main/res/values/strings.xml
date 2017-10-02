@@ -33,10 +33,20 @@
     <string name="register_edt_repeat_password">Repetir contraseña</string>
     <string name="register_edt_address">Dirección</string>
     <string name="register_txt_gender">Sexo:</string>
+    <string name="register_txt_location">Ubicación:</string>
     <string name="register_txt_date">Fecha de nacimiento:</string>
     <string name="register_rbtn_male">Masculino</string>
     <string name="register_rbtn_female">Femenino</string>
     <string name="register_btn_save">Guardar</string>
+    <string name="register_btn_photo">Tomar foto</string>
+    <string name="register_empty_username">Debe ingresar sus nombres y apellidos</string>
+    <string name="register_empty_mail">Debe ingresar su correo electrónico</string>
+    <string name="register_empty_phone">Debe ingresar su número celular</string>
+    <string name="register_empty_address">Debe ingresar su dirección</string>
+    <string name="register_empty_password">Debe ingresar su contraseña</string>
+    <string name="register_empty_re_password">Debe repetir su contraseña</string>
+    <string name="register_invalid_mail">Ingrese un correo electrónico válido</string>
+    <string name="register_invalid_re_password">Las contraseñas no son iguales</string>
     <!-- END REGISTER -->
 
     <!-- INIT RECOVERY -->
@@ -44,10 +54,8 @@
     <string name="recovery_edt_mail">Correo electrónico</string>
     <string name="recovery_btn_save">Enviar</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_other">OtherActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="recovery_empty_mail">Debe ingresar su correo electrónico</string>
+    <string name="recovery_invalid_mail">Ingrese un correo electrónico válido</string>
     <!-- END RECOVERY -->
 
     <!-- INIT NEW REQUEST -->
