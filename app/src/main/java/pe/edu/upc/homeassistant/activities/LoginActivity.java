@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -99,8 +100,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //TODO: Validar la funcionalidad del servicio
         AndroidNetworking.post(AssistantApiService.LOGIN_CLIENT_URL)
-                .addBodyParameter("mail", mail)
+                .addBodyParameter("email", mail)
                 .addBodyParameter("password", password)
+                .addBodyParameter("type", "1")
                 .setPriority(Priority.MEDIUM)
                 .setTag(getString(R.string.app_name))
                 .build()
@@ -112,12 +114,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Log.e(getString(R.string.app_name), response.getString("message"));
                                 return;
                             }
+                            Boolean status = response.getBoolean("status");
 
-                            Client client = Client.from(response.getJSONObject("client"));
-                            saveDataUser(client);
+                            if(status == true){
 
-                            startActivity(new Intent(context, MainActivity.class));
-                            finish();
+                                Toast toast = Toast.makeText(context, "Ok", Toast.LENGTH_LONG);
+                                toast.show();
+
+                                Client client = Client.from(response.getJSONArray("object").getJSONObject(0));
+                                saveDataUser(client);
+
+                                startActivity(new Intent(context, MainActivity.class));
+                                finish();
+
+
+                            }else{
+                                Toast toast = Toast.makeText(context, "Incorrecto", Toast.LENGTH_LONG);
+                                toast.show();
+
+                            }
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

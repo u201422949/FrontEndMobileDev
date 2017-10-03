@@ -2,6 +2,7 @@ package pe.edu.upc.homeassistant.model;
 
 import android.graphics.Bitmap;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -114,17 +115,17 @@ public class Client {
     public Client() {
     }
 
-    public static Client from(JSONObject jsonObject){
+    public static Client from(JSONObject jsonObject) throws JSONException {
         Client client = null;
         try {
             client = new Client();
-            client.setName(jsonObject.getString("name"))
+            client.setName(jsonObject.getString("fname"))
                     .setAddress(jsonObject.getString("address"))
-                    .setMail(jsonObject.getString("address"))
+                    .setMail(jsonObject.getString("email"))
                     .setPhone(jsonObject.getString("phone"))
                     .setLatitude(jsonObject.getLong("latitude"))
                     .setLongitude(jsonObject.getLong("longitude"))
-                    .setUrlPhoto(jsonObject.getString("url_photo"));
+                    .setUrlPhoto(jsonObject.getString("photo"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
