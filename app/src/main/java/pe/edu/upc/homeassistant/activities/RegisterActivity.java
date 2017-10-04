@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -111,10 +112,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Client client = validateFields();
             if (client != null) {
                 //TODO: Llamar al servicio de registro de usuario y remover guardado en saveDataUser()
-                //callLoginService(client);
-                saveDataUser(client);
-                startActivity(new Intent(context, MainActivity.class));
-                finish();
+                callLoginService(client);
+                //saveDataUser(client);
+                //startActivity(new Intent(context, MainActivity.class));
+                //finish();
             }
         }else if(view == btnPhoto){
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -124,7 +125,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private void callLoginService(Client client){
         AndroidNetworking.post(AssistantApiService.REGISTER_CLIENT_URL)
-                .addBodyParameter(client)
+                .addBodyParameter("name", client.getName())
+                .addBodyParameter("address", client.getAddress())
+                .addBodyParameter("email", client.getMail())
+                .addBodyParameter("phone", client.getPhone())
+                .addBodyParameter("latitude", String.valueOf(client.getLatitude()))
+                .addBodyParameter("longitude", String.valueOf(client.getLongitude()))
+                .addBodyParameter("password", client.getPassword())
                 .setPriority(Priority.MEDIUM)
                 .setTag(getString(R.string.app_name))
                 .build()
@@ -137,11 +144,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 return;
                             }
 
+                            Boolean status = response.getBoolean("status");
+
+                            if(status == true){
+
                             Client client = Client.from(response.getJSONObject("client"));
                             saveDataUser(client);
 
+                            Toast toast = Toast.makeText(context, client.getId(), Toast.LENGTH_LONG);
+                            toast.show();
+
                             startActivity(new Intent(context, MainActivity.class));
                             finish();
+
+                            }else{
+                                Toast toast = Toast.makeText(context, "Incorrecto", Toast.LENGTH_LONG);
+                                toast.show();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();

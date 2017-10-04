@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class Client {
 
+    private String id;
     private String name;
     private String address;
     private String mail;
@@ -101,7 +102,8 @@ public class Client {
         return this;
     }
 
-    public Client(String name, String address, String mail, String phone, double latitude, double longitude, String password, String urlPhoto) {
+    public Client(String id, String name, String address, String mail, String phone, double latitude, double longitude, String password, String urlPhoto) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.mail = mail;
@@ -119,7 +121,8 @@ public class Client {
         Client client = null;
         try {
             client = new Client();
-            client.setName(jsonObject.getString("fname"))
+            client.setId(jsonObject.getString("clientId"))
+                    .setName(jsonObject.getString("name"))
                     .setAddress(jsonObject.getString("address"))
                     .setMail(jsonObject.getString("email"))
                     .setPhone(jsonObject.getString("phone"))
@@ -131,5 +134,14 @@ public class Client {
         }
 
         return client;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Client setId(String id) {
+        this.id = id;
+        return this;
     }
 }
