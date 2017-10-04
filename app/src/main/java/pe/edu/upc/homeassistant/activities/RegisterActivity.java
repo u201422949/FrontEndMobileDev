@@ -43,6 +43,7 @@ import pe.edu.upc.homeassistant.Constants;
 import pe.edu.upc.homeassistant.R;
 import pe.edu.upc.homeassistant.model.Client;
 import pe.edu.upc.homeassistant.network.AssistantApiService;
+import pe.edu.upc.homeassistant.util.ConvertObject;
 import pe.edu.upc.homeassistant.views.SupportMapInsideScrollFragment;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
@@ -59,6 +60,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText edtAddress;
     private EditText edtPassword;
     private EditText edtRepeatPassword;
+    private EditText edtDocument;
+    private TextInputLayout tilDocument;
     private TextInputLayout tilName;
     private TextInputLayout tilMail;
     private TextInputLayout tilPhone;
@@ -85,12 +88,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         btnPhoto = (Button) findViewById(R.id.btnPhoto);
         imgProfile = (ImageView) findViewById(R.id.imgProfile);
         edtName = (EditText) findViewById(R.id.edtName);
+        edtDocument = (EditText) findViewById(R.id.edtDocument);
         edtMail = (EditText) findViewById(R.id.edtMail);
         edtPhone = (EditText) findViewById(R.id.edtPhone);
         edtAddress = (EditText) findViewById(R.id.edtAddress);
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         edtRepeatPassword = (EditText) findViewById(R.id.edtRepeatPassword);
         tilName = (TextInputLayout) findViewById(R.id.tilName);
+        tilDocument = (TextInputLayout) findViewById(R.id.tilDocument);
         tilMail = (TextInputLayout) findViewById(R.id.tilMail);
         tilPhone = (TextInputLayout) findViewById(R.id.tilPhone);
         tilAddress = (TextInputLayout) findViewById(R.id.tilAddress);
@@ -164,6 +169,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String address = edtAddress.getText().toString();
         String password = edtPassword.getText().toString();
         String rePassword = edtRepeatPassword.getText().toString();
+        String documentNumber = edtDocument.getText().toString();
 
         tilName.setErrorEnabled(false);
         tilMail.setErrorEnabled(false);
@@ -171,6 +177,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         tilAddress.setErrorEnabled(false);
         tilPassword.setErrorEnabled(false);
         tilRepeatPassword.setErrorEnabled(false);
+        tilDocument.setErrorEnabled(false);
 
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(mail) || TextUtils.isEmpty(phone) ||
                 TextUtils.isEmpty(address) || TextUtils.isEmpty(password) ||
@@ -194,6 +201,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if (TextUtils.isEmpty(rePassword)) {
                 tilRepeatPassword.setError(getString(R.string.register_empty_re_password));
             }
+            if (TextUtils.isEmpty(documentNumber)){
+                tilDocument.setError(getString(R.string.register_empty_document));
+            }
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
             tilMail.setError(getString(R.string.register_invalid_mail));
         } else if (!password.equals(rePassword)) {
@@ -206,7 +216,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     .setLatitude(userLocation.latitude)
                     .setLongitude(userLocation.longitude)
                     .setPassword(password)
-                    .setPhoto(profilePhoto);
+                    .setDocumentNumber(Integer.parseInt(documentNumber))
+                    .setPhoto(ConvertObject.bitmapToByteArray(profilePhoto));
         }
 
         return client;

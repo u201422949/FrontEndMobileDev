@@ -8,11 +8,30 @@ import java.util.List;
 
 public class Request implements Serializable{
 
+    private int id;
     private Client client;
     private List<Expert> experts;
     private Skill skill;
     private String description;
     private String subject;
+
+    public int getId() {
+        return id;
+    }
+
+    public Request setId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public List<Expert> getExperts() {
+        return experts;
+    }
+
+    public Request setExperts(List<Expert> experts) {
+        this.experts = experts;
+        return this;
+    }
 
     public Client getClient() {
         return client;

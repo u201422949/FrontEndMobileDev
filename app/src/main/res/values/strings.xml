@@ -28,6 +28,7 @@
     <string name="register_title">Registro</string>
     <string name="register_edt_name">Nombres y Apellidos</string>
     <string name="register_edt_mail">Correo electrónico</string>
+    <string name="register_edt_document">Número de Documento</string>
     <string name="register_edt_phone">Celular</string>
     <string name="register_edt_password">Contraseña</string>
     <string name="register_edt_repeat_password">Repetir contraseña</string>
@@ -45,6 +46,7 @@
     <string name="register_empty_address">Debe ingresar su dirección</string>
     <string name="register_empty_password">Debe ingresar su contraseña</string>
     <string name="register_empty_re_password">Debe repetir su contraseña</string>
+    <string name="register_empty_document">Debe ingresar su número de documento</string>
     <string name="register_invalid_mail">Ingrese un correo electrónico válido</string>
     <string name="register_invalid_re_password">Las contraseñas no son iguales</string>
     <!-- END REGISTER -->

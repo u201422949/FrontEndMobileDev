@@ -16,9 +16,11 @@ import pe.edu.upc.homeassistant.model.Request;
 public class ExpertsAdapter extends RecyclerView.Adapter<ExpertsAdapter.ViewHolder> {
 
     private List<Expert> experts;
+    private RecyclerViewClickListener listener;
 
-    public ExpertsAdapter(List<Expert> experts) {
+    public ExpertsAdapter(List<Expert> experts, RecyclerViewClickListener listener) {
         this.experts = experts;
+        this.listener = listener;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ExpertsAdapter extends RecyclerView.Adapter<ExpertsAdapter.ViewHold
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView imgThumbnail;
         private TextView txtTitle, txtDescription;
@@ -54,6 +56,13 @@ public class ExpertsAdapter extends RecyclerView.Adapter<ExpertsAdapter.ViewHold
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtDescription = (TextView) itemView.findViewById(R.id.txtDescription);
             imgThumbnail = (ImageView) itemView.findViewById(R.id.imgThumbnail);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.recyclerViewListClicked(view, getLayoutPosition());
         }
     }
 }

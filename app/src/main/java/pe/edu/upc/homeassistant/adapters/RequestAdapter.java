@@ -28,9 +28,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(RequestAdapter.ViewHolder holder, int position) {
+        Request request = requestList.get(position);
         holder.imgThumbnail.setImageResource(R.mipmap.ic_launcher);
-        holder.txtDescription.setText(requestList.get(position).getDescription());
-        holder.txtTitle.setText(requestList.get(position).getSubject());
+        holder.txtDescription.setText(request.getDescription());
+        holder.txtTitle.setText(request.getSubject());
     }
 
     @Override

@@ -32,4 +32,8 @@ public class Skill implements Serializable{
 
     public Skill() {
     }
+
+    public String toString(){
+        return name;
+    }
 }

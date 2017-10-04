@@ -118,8 +118,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             if(status == true){
 
-                                Toast toast = Toast.makeText(context, "Ok", Toast.LENGTH_LONG);
-                                toast.show();
+                                Toast.makeText(context, "Ok", Toast.LENGTH_LONG).show();
 
                                 Client client = Client.from(response.getJSONArray("object").getJSONObject(0));
                                 saveDataUser(client);
@@ -148,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void saveDataUser(Client client){
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
