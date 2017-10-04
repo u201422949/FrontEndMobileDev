@@ -152,7 +152,6 @@ public class Client {
         return client;
     }
 
-<<<<<<< HEAD
     public String getId() {
         return id;
     }
@@ -160,13 +159,14 @@ public class Client {
     public Client setId(String id) {
         this.id = id;
         return this;
-=======
+
+    }
+
     public static Client from(Context context){
         SharedPreferences preferences = context.getSharedPreferences
                 (context.getString(R.string.app_name), MODE_PRIVATE);
         Gson gson = new Gson();
         String json = preferences.getString(Constants.SP_DATA_CLIENT, "");
         return gson.fromJson(json, Client.class);
->>>>>>> a115a5d8ea5452d1d2e874edeac7764f87f3f577
     }
 }
