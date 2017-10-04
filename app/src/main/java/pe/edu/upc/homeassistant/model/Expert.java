@@ -1,5 +1,8 @@
 package pe.edu.upc.homeassistant.model;
 
+import android.graphics.Bitmap;
+import android.os.Bundle;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,87 +15,143 @@ public class Expert implements Serializable{
     private String name;
     private String mail;
     private String description;
-    private long date;
-    private double gender;
+    private String phone;
     private String password;
-    private double rate;
+    private float rate;
     private List<Skill> skills;
-    private String photo;
+    private String urlPhoto;
+    private byte[] photo;
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Expert setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getMail() {
         return mail;
     }
 
-    public void setMail(String mail) {
+    public Expert setMail(String mail) {
         this.mail = mail;
-    }
-
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
-    }
-
-    public double getGender() {
-        return gender;
-    }
-
-    public void setGender(double gender) {
-        this.gender = gender;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Expert setDescription(String description) {
         this.description = description;
+        return this;
     }
 
-    public String getPhoto() {
+    public String getPassword() {
+        return password;
+    }
+
+    public Expert setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public Expert setRate(float rate) {
+        this.rate = rate;
+        return this;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public Expert setSkills(List<Skill> skills) {
+        this.skills = skills;
+        return this;
+    }
+
+    public String getUrlPhoto() {
+        return urlPhoto;
+    }
+
+    public Expert setUrlPhoto(String urlPhoto) {
+        this.urlPhoto = urlPhoto;
+        return this;
+    }
+
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public Expert setPhoto(byte[] photo) {
+        this.photo = photo;
+        return this;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Expert setPhone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    public Expert() {
+    }
+
+    public Expert(String name, String mail, String description, String phone, String password, float rate, List<Skill> skills, String urlPhoto, byte[] photo) {
+        this.name = name;
+        this.mail = mail;
+        this.description = description;
+        this.phone = phone;
+        this.password = password;
+        this.rate = rate;
+        this.skills = skills;
+        this.urlPhoto = urlPhoto;
         this.photo = photo;
     }
 
-    public Expert(String name, String mail) {
+    public Expert(String name, String mail, String description, String phone, float rate, List<Skill> skills) {
         this.name = name;
         this.mail = mail;
+        this.description = description;
+        this.phone = phone;
+        this.rate = rate;
+        this.skills = skills;
     }
+
+    public Bundle toBundle(){
+        Bundle bundle = new Bundle();
+        bundle.putString("name", name);
+        bundle.putString("mail", mail);
+        bundle.putString("description", description);
+        bundle.putString("phone", phone);
+        bundle.putFloat("rate", rate);
+        bundle.putSerializable("skills", (Serializable) skills);
+        bundle.putString("urlPhoto", urlPhoto);
+        bundle.putByteArray("photo", photo);
+        return bundle;
+    }
+
+    public static Expert from(Bundle bundle){
+        Expert expert = new Expert();
+        expert.setName(bundle.getString("name"))
+                .setMail(bundle.getString("mail"))
+                .setDescription(bundle.getString("description"))
+                .setRate(bundle.getFloat("rate"))
+                .setPhone(bundle.getString("phone"))
+                .setSkills((List<Skill>) bundle.getSerializable("skills"))
+                .setUrlPhoto(bundle.getString("urlPhoto"))
+                .setPhoto(bundle.getByteArray("photo"));
+
+        return expert;
+    }
+
 }

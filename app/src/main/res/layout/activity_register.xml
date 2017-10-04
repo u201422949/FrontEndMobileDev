@@ -68,6 +68,27 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilDocument"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/login_txt_edt"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/TextAppearanceErrorLogin">
+
+            <EditText
+                android:id="@+id/edtDocument"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_edt_document"
+                android:inputType="number"
+                android:maxLines="1"
+                android:padding="@dimen/login_edt_pd"
+                android:textColor="@color/login_txt_edt"
+                android:textColorHint="@color/login_hnt_edt"
+                android:backgroundTint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/tilPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

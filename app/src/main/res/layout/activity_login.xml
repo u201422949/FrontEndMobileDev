@@ -54,6 +54,8 @@
                     android:drawablePadding="@dimen/login_edt_dw_pd"
                     android:hint="@string/login_edt_user"
                     android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
                     android:padding="@dimen/login_edt_pd"
                     android:textColor="@color/login_txt_edt"
                     android:textColorHint="@color/login_hnt_edt" />

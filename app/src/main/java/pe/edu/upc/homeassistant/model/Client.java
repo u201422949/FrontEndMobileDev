@@ -1,25 +1,40 @@
 package pe.edu.upc.homeassistant.model;
 
-import android.graphics.Bitmap;
+import android.content.Context;
+import android.content.SharedPreferences;
 
-import org.json.JSONArray;
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
+import pe.edu.upc.homeassistant.Constants;
+import pe.edu.upc.homeassistant.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Client {
 
     private String id;
     private String name;
     private String address;
+    private int documentNumber;
     private String mail;
     private String phone;
     private double latitude;
     private double longitude;
     private String password;
     private String urlPhoto;
-    private Bitmap photo;
+    private byte[] photo;
+
+    public int getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public Client setDocumentNumber(int documentNumber) {
+        this.documentNumber = documentNumber;
+        return this;
+    }
 
     public String getName() {
         return name;
@@ -93,11 +108,11 @@ public class Client {
         return this;
     }
 
-    public Bitmap getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public Client setPhoto(Bitmap photo) {
+    public Client setPhoto(byte[] photo) {
         this.photo = photo;
         return this;
     }
@@ -124,6 +139,7 @@ public class Client {
             client.setId(jsonObject.getString("clientId"))
                     .setName(jsonObject.getString("name"))
                     .setAddress(jsonObject.getString("address"))
+                    .setDocumentNumber(jsonObject.getInt("documentNumber"))
                     .setMail(jsonObject.getString("email"))
                     .setPhone(jsonObject.getString("phone"))
                     .setLatitude(jsonObject.getLong("latitude"))
@@ -136,6 +152,7 @@ public class Client {
         return client;
     }
 
+<<<<<<< HEAD
     public String getId() {
         return id;
     }
@@ -143,5 +160,13 @@ public class Client {
     public Client setId(String id) {
         this.id = id;
         return this;
+=======
+    public static Client from(Context context){
+        SharedPreferences preferences = context.getSharedPreferences
+                (context.getString(R.string.app_name), MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = preferences.getString(Constants.SP_DATA_CLIENT, "");
+        return gson.fromJson(json, Client.class);
+>>>>>>> a115a5d8ea5452d1d2e874edeac7764f87f3f577
     }
 }

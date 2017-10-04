@@ -1,5 +1,6 @@
 package pe.edu.upc.homeassistant.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import pe.edu.upc.homeassistant.R;
+import pe.edu.upc.homeassistant.model.Client;
 import pe.edu.upc.homeassistant.model.Request;
 import pe.edu.upc.homeassistant.model.Skill;
 
@@ -29,11 +31,13 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
     private TextInputLayout tilDescription;
     private Button btnSend;
     private SpinnerAdapter spinnerAdapter;
+    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_request);
+        context = NewRequestActivity.this;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         spnRequestType = (Spinner) findViewById(R.id.spnRequestType);
@@ -60,14 +64,16 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         if (view == btnSend){
             Skill skill = new Skill(spnRequestType.getSelectedItemPosition(), (String) spnRequestType.getSelectedItem());
-            Request request = new Request(skill, edtDescription.getText().toString(), edtSubject.getText().toString());
-            /*Intent returnIntent = new Intent();
+            Client client = Client.from(context);
+            Request request = new Request(client, skill, edtDescription.getText().toString(), edtSubject.getText().toString());
+
+            Intent returnIntent = new Intent();
             returnIntent.putExtra(EXTRA_REQUEST, request);
             setResult(RESULT_OK, returnIntent);
-            finish();*/
-            Intent intent = new Intent(NewRequestActivity.this, ExpertsActivity.class);
+            finish();
+            /*Intent intent = new Intent(NewRequestActivity.this, ExpertsActivity.class);
             intent.putExtra("",request);
-            startActivityForResult(intent, 2);
+            startActivityForResult(intent, 2);*/
         }
     }
 }

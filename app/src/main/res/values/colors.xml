@@ -12,6 +12,7 @@
 
     <!-- INIT NEW REQUEST -->
     <color name="request_hnt_edt">#b9b9b9</color>
+    <color name="request_hnt_til">#b9b9b9</color>
     <color name="request_txt_edt">#000000</color>
     <color name="request_error_edt">#E2574C</color>
     <!-- END NEW REQUEST -->
