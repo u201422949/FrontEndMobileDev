@@ -6,16 +6,30 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pe.edu.upc.homeassistant.R;
+import pe.edu.upc.homeassistant.model.Client;
 import pe.edu.upc.homeassistant.model.Request;
 import pe.edu.upc.homeassistant.model.Skill;
+import pe.edu.upc.homeassistant.network.AssistantApiService;
 
 import static pe.edu.upc.homeassistant.Constants.EXTRA_REQUEST;
 
@@ -51,8 +65,9 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void adaptSpinner(){
+
         String[] requestTypes = getResources().getStringArray(R.array.array_request_type);
-        spinnerAdapter =new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1, requestTypes);
+        spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1, requestTypes);
         spnRequestType.setAdapter(spinnerAdapter);
     }
 
