@@ -6,6 +6,8 @@ package pe.edu.upc.homeassistant;
 
 public class Competencia {
 
+
+    /*Para Prueba*/
     private String competencia;
     private Boolean state;
 
