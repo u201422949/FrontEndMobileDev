@@ -31,14 +31,21 @@
                 android:textSize="@dimen/album_title" />
 
             <TextView
-                android:id="@+id/txtDescription"
+                android:id="@+id/txtNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/songs_count_padding_bottom"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
-                android:text="Description"
-                android:textSize="@dimen/songs_count" />
+                android:paddingTop="@dimen/album_title_padding"
+                android:text="Title"
+                android:textSize="@dimen/album_title" />
+
+            <RatingBar
+                android:id="@+id/ratingExpert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                style="?android:attr/ratingBarStyleIndicator"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Client implements Serializable{
 
     private String id;
+    @SerializedName("usuario")
     private String name;
     private String address;
     private int documentNumber;
@@ -25,8 +27,20 @@ public class Client implements Serializable{
     private String phone;
     private double latitude;
     private double longitude;
+    @SerializedName("password")
     private String password;
     private String urlPhoto;
+    @SerializedName("tipo")
+    private String tipo;
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public Client setTipo(String tipo) {
+        this.tipo = tipo;
+        return this;
+    }
 
     public int getDocumentNumber() {
         return documentNumber;

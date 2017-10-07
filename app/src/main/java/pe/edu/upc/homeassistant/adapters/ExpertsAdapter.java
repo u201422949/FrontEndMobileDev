@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -33,8 +34,9 @@ public class ExpertsAdapter extends RecyclerView.Adapter<ExpertsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ExpertsAdapter.ViewHolder holder, int position) {
-        holder.txtDescription.setText(experts.get(position).getMail());
-        holder.txtName.setText(experts.get(position).getMail());
+        holder.txtNumber.setText(experts.get(position).getPhone());
+        holder.txtName.setText(experts.get(position).getName());
+        holder.ratingExpert.setRating(experts.get(position).getRate());
 
         if(selectedExperts.contains(experts.get(position)))
             holder.cardView.setBackgroundColor(ContextCompat.getColor(
@@ -65,14 +67,16 @@ public class ExpertsAdapter extends RecyclerView.Adapter<ExpertsAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView txtName, txtDescription;
+        private TextView txtName, txtNumber;
         private CardView cardView;
+        private RatingBar ratingExpert;
 
         public ViewHolder(View itemView) {
             super(itemView);
             txtName = (TextView) itemView.findViewById(R.id.txtName);
-            txtDescription = (TextView) itemView.findViewById(R.id.txtDescription);
+            txtNumber = (TextView) itemView.findViewById(R.id.txtNumber);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
+            ratingExpert = (RatingBar) itemView.findViewById(R.id.ratingExpert);
         }
     }
 }

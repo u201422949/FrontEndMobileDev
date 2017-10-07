@@ -4,6 +4,7 @@ import pe.edu.upc.homeassistant.model.Client;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
@@ -13,8 +14,8 @@ import retrofit2.http.POST;
 public interface APIService {
 
     @POST("login")
-    @FormUrlEncoded
-    Call<Client> savePost(@Field("usuario") String user,
+    Call<Client> savePost(@Header("Content-Type") String content_type,
+                          @Field("usuario") String user,
                           @Field("password") String password,
                           @Field("tipo") String type);
 }

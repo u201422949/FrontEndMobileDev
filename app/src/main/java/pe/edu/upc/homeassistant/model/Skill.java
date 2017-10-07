@@ -41,13 +41,13 @@ public class Skill implements Serializable{
     }
 
     public static Skill from(JSONObject jsonSource){
-        Skill article = new Skill();
+        Skill skill = new Skill();
         try {
-            article.setCode(jsonSource.getInt("code"))
-                    .setName(jsonSource.getString("name"));
+            skill.setCode(jsonSource.getInt("idespecialidad"))
+                    .setName(jsonSource.getString("descripcion"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return article;
+        return skill;
     }
 }

@@ -21,12 +21,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,8 +64,9 @@ public class ExpertsActivity extends AppCompatActivity implements View.OnClickLi
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton fabExperts;
     private Context context;
+    private Request request;
     ProgressDialog progressDialog;
-    TaskExperts taskExperts;
+    public RequestQueue requestQueue;
     List<Expert> experts = new ArrayList<>();
     List<Expert> selectedExperts = new ArrayList<>();
 
@@ -68,20 +75,12 @@ public class ExpertsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experts);
         context = ExpertsActivity.this;
+        progressDialog = new ProgressDialog(context);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        request = (Request) getIntent().getSerializableExtra("request");
 
         recyclerRequest = (RecyclerView) findViewById(R.id.recyclerRequest);
         fabExperts = (FloatingActionButton) findViewById(R.id.fabExperts);
-
-        //TODO: Set original list of requests
-        experts = new ArrayList<>();
-        List<Skill> skills = new ArrayList<>();
-        skills.add(new Skill(1, "Carpinteria"));
-        skills.add(new Skill(2, "Gasfiteria"));
-        skills.add(new Skill(3, "Costura"));
-        experts.add(new Expert("Augusto Alva", "aalva@gmail.cm", "Me dedido a mis estudios", "984562121", 3, skills));
-        experts.add(new Expert("Fabiana Cuenca", "fabc@gmail.cm", "Otra descripcion", "321153132", 3, skills));
-        experts.add(new Expert("Pedro Toro", "pedrotoro@gmail.cm", "dasdasdasdasdas", "3894421", 2, skills));
-        experts.add(new Expert("Fernando Castro", "fercas@gmail.cm", "Mi pais es primero", "9999999", 1, skills));
 
         expertsAdapter = new ExpertsAdapter(experts, selectedExperts);
         layoutManager = new LinearLayoutManager(ExpertsActivity.this);
@@ -104,13 +103,14 @@ public class ExpertsActivity extends AppCompatActivity implements View.OnClickLi
                 multi_select(position);
             }
         }));
+
+        callExpertsService();
     }
 
     @Override
     public void onClick(View view) {
         if(view.equals(fabExperts)){
-            taskExperts = new TaskExperts();
-            taskExperts.execute();
+            startActivity(new Intent(context, MainActivity.class));
         }
     }
 
@@ -132,74 +132,53 @@ public class ExpertsActivity extends AppCompatActivity implements View.OnClickLi
 
     private void callExpertsService(){
 
-        //TODO: Validar la funcionalidad del servicio
-        AndroidNetworking.post(AssistantApiService.GET_EXPERTS_URL)
-                .addBodyParameter("type", "1")
-                .setPriority(Priority.MEDIUM)
-                .setTag(getString(R.string.app_name))
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if("error".equalsIgnoreCase(response.getString("status"))){
-                                Log.e(getString(R.string.app_name), response.getString("message"));
-                                return;
+        progressDialog.setMessage("Cargando especialistas");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        JSONObject expertParam = new JSONObject();
+        try {
+            expertParam.put("idespecialidad",request.getSkill().getCode()+"");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, AssistantApiService.GET_EXPERTS_URL,
+                expertParam,
+                    new Response.Listener<JSONObject>()
+                    {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONArray jsonArray = response.getJSONArray("especialistas");
+                                experts = new ArrayList<>();
+                                for (int i = 0; i < jsonArray.length(); i++)
+                                    try {
+                                        experts.add(Expert.from(jsonArray.getJSONObject(i)));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    expertsAdapter.setExperts(experts);
+                                    expertsAdapter.notifyDataSetChanged();
+                                progressDialog.dismiss();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                progressDialog.dismiss();
                             }
-                            Boolean status = response.getBoolean("status");
-
-                            if(status == true){
-
-                                Toast.makeText(context, "Ok", Toast.LENGTH_LONG).show();
-
-                                Client client = Client.from(response.getJSONArray("object").getJSONObject(0));
-
-                                startActivity(new Intent(context, MainActivity.class));
-                                finish();
-
-
-                            }else{
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // error
+                            Log.d("Error.Response", "error");
+                            progressDialog.dismiss();
                         }
                     }
+            );
 
-                    @Override
-                    public void onError(ANError anError) {
-                        Log.e(getString(R.string.app_name), anError.getLocalizedMessage());
-                    }
-                });
-    }
-
-
-    public class TaskExperts extends AsyncTask {
-
-
-        public TaskExperts() {
-            super();
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog.setMessage(getString(R.string.login_dialog_progress));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            callExpertsService();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            progressDialog.dismiss();
-        }
+        requestQueue.add(postRequest);
     }
 }

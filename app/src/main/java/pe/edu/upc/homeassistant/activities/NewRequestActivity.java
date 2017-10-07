@@ -20,6 +20,11 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -53,7 +58,7 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
     private Context context;
     private List<Skill> skills = new ArrayList<>();
     ProgressDialog progressDialog;
-    TaskSkills taskSkills;
+    public RequestQueue requestQueue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +66,7 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_new_request);
         context = NewRequestActivity.this;
         progressDialog = new ProgressDialog(context);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         spnRequestType = (Spinner) findViewById(R.id.spnRequestType);
@@ -73,16 +79,11 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
         setSupportActionBar(toolbar);
         btnSend.setOnClickListener(this);
 
-        taskSkills = new TaskSkills();
-        taskSkills.execute();
-
-        adaptSpinner();
-
+        callSkillsService();
     }
 
     private void adaptSpinner(){
-        String[] requestTypes = getResources().getStringArray(R.array.array_request_type);
-        spinnerAdapter =new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1, requestTypes);
+        spinnerAdapter =new ArrayAdapter<Skill>(this,android.R.layout.simple_expandable_list_item_1, skills);
         spnRequestType.setAdapter(spinnerAdapter);
     }
 
@@ -94,7 +95,7 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
             int category = spnRequestType.getSelectedItemPosition();
 
             if(validateFields(subject, description, category)) {
-                Skill skill = new Skill(spnRequestType.getSelectedItemPosition(), (String) spnRequestType.getSelectedItem());
+                Skill skill = new Skill(spnRequestType.getSelectedItemPosition(), spnRequestType.getSelectedItem().toString());
                 Client client = Client.from(context);
                 Request request = new Request(client, skill, edtDescription.getText().toString(), edtSubject.getText().toString());
 
@@ -125,69 +126,46 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
 
     private void callSkillsService(){
 
-        AndroidNetworking.get(AssistantApiService.GET_SKILLS)
-                .addHeaders("Content-Type", "application/json")
-                .setPriority(Priority.MEDIUM)
-                .setTag(getString(R.string.app_name))
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
+        progressDialog.setMessage("Cargando especialidades");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        JSONObject client = new JSONObject();
+        JsonObjectRequest postRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, AssistantApiService.GET_SKILLS,
+                null,
+                new Response.Listener<JSONObject>()
+                {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            if("error".equalsIgnoreCase(response.getString("status"))){
-                                Log.e(getString(R.string.app_name), response.getString("message"));
-                                return;
-                            }
-                            Boolean status = response.getBoolean("status");
+                            JSONArray jsonArray = response.getJSONArray("especialidades");
+                            skills = new ArrayList<>();
+                            for (int i = 0; i < jsonArray.length(); i++)
+                                try {
+                                    skills.add(Skill.from(jsonArray.getJSONObject(i)));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
-                            if(status == true){
-
-                                Toast.makeText(context, "Ok", Toast.LENGTH_LONG).show();
-
-                                JSONArray jsonArray = response.getJSONArray("");
-                                for (int i = 0; i < jsonArray.length(); i++)
-                                    try {
-                                        skills.add(Skill.from(jsonArray.getJSONObject(i)));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                            }else{
-
-                            }
+                            adaptSpinner();
+                            progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            progressDialog.dismiss();
                         }
                     }
-
+                },
+                new Response.ErrorListener()
+                {
                     @Override
-                    public void onError(ANError anError) {
-                        Log.e(getString(R.string.app_name), anError.getErrorBody());
-
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", "error");
+                        progressDialog.dismiss();
                     }
-                });
-    }
+                }
+        );
 
-    public class TaskSkills extends AsyncTask {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog.setMessage(getString(R.string.login_dialog_progress));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-
-            callSkillsService();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            progressDialog.dismiss();
-        }
+        requestQueue.add(postRequest);
     }
 }

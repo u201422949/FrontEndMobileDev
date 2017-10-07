@@ -3,6 +3,9 @@ package pe.edu.upc.homeassistant.model;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,6 +23,16 @@ public class Expert implements Serializable{
     private float rate;
     private List<Skill> skills;
     private String urlPhoto;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public Expert setId(int id) {
+        this.id = id;
+        return this;
+    }
 
     public String getName() {
         return name;
@@ -138,6 +151,19 @@ public class Expert implements Serializable{
                 .setSkills((List<Skill>) bundle.getSerializable("skills"))
                 .setUrlPhoto(bundle.getString("urlPhoto"));
 
+        return expert;
+    }
+
+    public static Expert from(JSONObject jsonSource){
+        Expert expert = new Expert();
+        try {
+            expert.setId(jsonSource.getInt("idusuario"))
+                    .setName(jsonSource.getString("nombre"))
+                    .setRate(Float.valueOf(jsonSource.getString("puntaje")))
+                    .setPhone(jsonSource.getString("telefono"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return expert;
     }
 
