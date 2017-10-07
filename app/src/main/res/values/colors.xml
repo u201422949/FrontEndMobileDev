@@ -16,4 +16,9 @@
     <color name="request_txt_edt">#000000</color>
     <color name="request_error_edt">#E2574C</color>
     <!-- END NEW REQUEST -->
+
+    <!-- INIT EXPERTS -->
+    <color name="list_item_selected_state">#F4F6F6</color>
+    <color name="list_item_normal_state">#FFFFFF</color>
+    <!-- END EXPERTS -->
 </resources>

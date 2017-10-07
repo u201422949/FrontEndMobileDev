@@ -1,5 +1,7 @@
 package pe.edu.upc.homeassistant.adapters;
 
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +18,11 @@ import pe.edu.upc.homeassistant.model.Request;
 public class ExpertsAdapter extends RecyclerView.Adapter<ExpertsAdapter.ViewHolder> {
 
     private List<Expert> experts;
-    private RecyclerViewClickListener listener;
+    private List<Expert> selectedExperts;
 
-    public ExpertsAdapter(List<Expert> experts, RecyclerViewClickListener listener) {
+    public ExpertsAdapter(List<Expert> experts, List<Expert> selectedExperts) {
         this.experts = experts;
-        this.listener = listener;
+        this.selectedExperts = selectedExperts;
     }
 
     @Override
@@ -31,9 +33,16 @@ public class ExpertsAdapter extends RecyclerView.Adapter<ExpertsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ExpertsAdapter.ViewHolder holder, int position) {
-        holder.imgThumbnail.setImageResource(R.mipmap.ic_launcher);
         holder.txtDescription.setText(experts.get(position).getMail());
-        holder.txtTitle.setText(experts.get(position).getMail());
+        holder.txtName.setText(experts.get(position).getMail());
+
+        if(selectedExperts.contains(experts.get(position)))
+            holder.cardView.setBackgroundColor(ContextCompat.getColor(
+                    holder.cardView.getContext(), R.color.list_item_selected_state));
+        else
+            holder.cardView.setBackgroundColor(ContextCompat.getColor(
+                    holder.cardView.getContext(), R.color.list_item_normal_state));
+
     }
 
     @Override
@@ -46,23 +55,24 @@ public class ExpertsAdapter extends RecyclerView.Adapter<ExpertsAdapter.ViewHold
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public void setSelectedExperts(List<Expert> selectedExperts){
+        this.selectedExperts = selectedExperts;
+    }
 
-        private ImageView imgThumbnail;
-        private TextView txtTitle, txtDescription;
+    public void setExperts(List<Expert> experts){
+        this.experts = experts;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView txtName, txtDescription;
+        private CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
+            txtName = (TextView) itemView.findViewById(R.id.txtName);
             txtDescription = (TextView) itemView.findViewById(R.id.txtDescription);
-            imgThumbnail = (ImageView) itemView.findViewById(R.id.imgThumbnail);
-
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            listener.recyclerViewListClicked(view, getLayoutPosition());
+            cardView = (CardView) itemView.findViewById(R.id.cardView);
         }
     }
 }

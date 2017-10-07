@@ -84,20 +84,14 @@ public class MainActivity extends AppCompatActivity{
                 break;
         }
 
-        // update selected item
         mSelectedItem = item.getItemId();
-
-        updateToolbarText(item.getTitle());
+        getSupportActionBar().setTitle(item.getTitle());
 
         if (frag != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.container, frag, frag.getTag());
             ft.commit();
         }
-    }
-
-    private void updateToolbarText(CharSequence text) {
-       getSupportActionBar().setTitle(text);
     }
 
     @Override

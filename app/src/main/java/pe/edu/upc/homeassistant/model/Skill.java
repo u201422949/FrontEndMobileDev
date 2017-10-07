@@ -1,5 +1,8 @@
 package pe.edu.upc.homeassistant.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 public class Skill implements Serializable{
@@ -35,5 +38,16 @@ public class Skill implements Serializable{
 
     public String toString(){
         return name;
+    }
+
+    public static Skill from(JSONObject jsonSource){
+        Skill article = new Skill();
+        try {
+            article.setCode(jsonSource.getInt("code"))
+                    .setName(jsonSource.getString("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return article;
     }
 }

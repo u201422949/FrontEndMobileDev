@@ -1,8 +1,11 @@
 package pe.edu.upc.homeassistant.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +30,11 @@ import org.json.JSONObject;
 import pe.edu.upc.homeassistant.Constants;
 import pe.edu.upc.homeassistant.R;
 import pe.edu.upc.homeassistant.model.Client;
+import pe.edu.upc.homeassistant.network.APIService;
 import pe.edu.upc.homeassistant.network.AssistantApiService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -38,17 +46,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextInputLayout tilUser;
     private TextInputLayout tilPassword;
     private Context context;
+    private TaskLogin taskLogin;
+    private LinearLayout lnLogin;
+    ProgressDialog progressDialog;
+    private APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         context = LoginActivity.this;
+        progressDialog = new ProgressDialog(context);
+        mAPIService = AssistantApiService.getAPIService();
 
         initializeViews();
     }
 
     private void initializeViews(){
+        lnLogin = (LinearLayout) findViewById(R.id.lnLogin);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         txtRecovery = (TextView) findViewById(R.id.txtRecovery);
@@ -70,8 +85,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String mail = edtUser.getText().toString();
             String password = edtPassword.getText().toString();
 
-            if(validateFields(mail, password))
-                callLoginService(mail, password);
+            if(validateFields(mail, password)) {
+                taskLogin = new TaskLogin(mail, password);
+                taskLogin.execute();
+            }
 
         }else if(view == txtRecovery){
             startActivity(new Intent(context, RecoveryActivity.class));
@@ -98,11 +115,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void callLoginService(String mail, String password){
 
-        //TODO: Validar la funcionalidad del servicio
         AndroidNetworking.post(AssistantApiService.LOGIN_CLIENT_URL)
-                .addBodyParameter("email", mail)
-                .addBodyParameter("password", password)
+                .addBodyParameter("email", "home@home.com")
+                .addBodyParameter("password", "123456")
                 .addBodyParameter("type", "1")
+                .addHeaders("Content-Type", "application/json")
                 .setPriority(Priority.MEDIUM)
                 .setTag(getString(R.string.app_name))
                 .build()
@@ -128,12 +145,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                             }else{
-                                Toast toast = Toast.makeText(context, "Incorrecto", Toast.LENGTH_LONG);
-                                toast.show();
-
+                                Snackbar snackbar = Snackbar
+                                        .make(lnLogin, "Welcome to AndroidHive", Snackbar.LENGTH_LONG);
+                                snackbar.show();
                             }
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -141,9 +156,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onError(ANError anError) {
-                        Log.e(getString(R.string.app_name), anError.getLocalizedMessage());
+                        Log.e(getString(R.string.app_name), anError.getErrorBody());
+                        Snackbar snackbar = Snackbar
+                                .make(lnLogin, anError.getErrorBody(), Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 });
+
+       /* mAPIService.savePost(mail, password, "c").enqueue(new Callback<Client>() {
+            @Override
+            public void onResponse(Call<Client> call, Response<Client> response) {
+
+                if(response.isSuccessful()) {
+                   // showResponse(response.body().toString());
+                    Log.i("asdasdasdas", "post submitted to API." + response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Client> call, Throwable t) {
+                Log.e("sadasdas", "Unable to submit post to API.");
+            }
+        });*/
     }
 
     private void saveDataUser(Client client){
@@ -154,5 +188,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String json = gson.toJson(client);
         editor.putString(Constants.SP_DATA_CLIENT, json);
         editor.commit();
+    }
+
+    public class TaskLogin extends AsyncTask{
+
+        private String user;
+        private String password;
+
+        public TaskLogin(String user, String password) {
+            super();
+            this.user = user;
+            this.password = password;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage(getString(R.string.login_dialog_progress));
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+
+            callLoginService(user, password);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            progressDialog.dismiss();
+        }
     }
 }

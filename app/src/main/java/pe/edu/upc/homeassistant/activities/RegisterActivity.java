@@ -235,8 +235,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     .setLatitude(userLocation.latitude)
                     .setLongitude(userLocation.longitude)
                     .setPassword(password)
-                    .setDocumentNumber(Integer.parseInt(documentNumber))
-                    .setPhoto(ConvertObject.bitmapToByteArray(profilePhoto));
+                    .setDocumentNumber(Integer.parseInt(documentNumber));
         }
 
         return client;

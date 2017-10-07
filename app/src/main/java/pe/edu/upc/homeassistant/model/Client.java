@@ -8,12 +8,14 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 import pe.edu.upc.homeassistant.Constants;
 import pe.edu.upc.homeassistant.R;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class Client {
+public class Client implements Serializable{
 
     private String id;
     private String name;
@@ -25,7 +27,6 @@ public class Client {
     private double longitude;
     private String password;
     private String urlPhoto;
-    private byte[] photo;
 
     public int getDocumentNumber() {
         return documentNumber;
@@ -108,17 +109,7 @@ public class Client {
         return this;
     }
 
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public Client setPhoto(byte[] photo) {
-        this.photo = photo;
-        return this;
-    }
-
-    public Client(String id, String name, String address, String mail, String phone, double latitude, double longitude, String password, String urlPhoto) {
-        this.id = id;
+    public Client(String name, String address, String mail, String phone, double latitude, double longitude, String password, String urlPhoto) {
         this.name = name;
         this.address = address;
         this.mail = mail;
@@ -136,7 +127,7 @@ public class Client {
         Client client = null;
         try {
             client = new Client();
-            client.setId(jsonObject.getString("clientId"))
+            client.setName(jsonObject.getString("fname"))
                     .setName(jsonObject.getString("name"))
                     .setAddress(jsonObject.getString("address"))
                     .setDocumentNumber(jsonObject.getInt("documentNumber"))

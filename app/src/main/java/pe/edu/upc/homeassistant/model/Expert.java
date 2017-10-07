@@ -20,7 +20,6 @@ public class Expert implements Serializable{
     private float rate;
     private List<Skill> skills;
     private String urlPhoto;
-    private byte[] photo;
 
     public String getName() {
         return name;
@@ -85,15 +84,6 @@ public class Expert implements Serializable{
         return this;
     }
 
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public Expert setPhoto(byte[] photo) {
-        this.photo = photo;
-        return this;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -106,7 +96,7 @@ public class Expert implements Serializable{
     public Expert() {
     }
 
-    public Expert(String name, String mail, String description, String phone, String password, float rate, List<Skill> skills, String urlPhoto, byte[] photo) {
+    public Expert(String name, String mail, String description, String phone, String password, float rate, List<Skill> skills, String urlPhoto) {
         this.name = name;
         this.mail = mail;
         this.description = description;
@@ -115,7 +105,6 @@ public class Expert implements Serializable{
         this.rate = rate;
         this.skills = skills;
         this.urlPhoto = urlPhoto;
-        this.photo = photo;
     }
 
     public Expert(String name, String mail, String description, String phone, float rate, List<Skill> skills) {
@@ -136,7 +125,6 @@ public class Expert implements Serializable{
         bundle.putFloat("rate", rate);
         bundle.putSerializable("skills", (Serializable) skills);
         bundle.putString("urlPhoto", urlPhoto);
-        bundle.putByteArray("photo", photo);
         return bundle;
     }
 
@@ -148,8 +136,7 @@ public class Expert implements Serializable{
                 .setRate(bundle.getFloat("rate"))
                 .setPhone(bundle.getString("phone"))
                 .setSkills((List<Skill>) bundle.getSerializable("skills"))
-                .setUrlPhoto(bundle.getString("urlPhoto"))
-                .setPhoto(bundle.getByteArray("photo"));
+                .setUrlPhoto(bundle.getString("urlPhoto"));
 
         return expert;
     }

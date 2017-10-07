@@ -21,7 +21,7 @@
     <string name="login_empty_username">Debe ingresar el usuario</string>
     <string name="login_empty_password">Debe ingresar el password</string>
     <string name="login_empty_username_password">Debe ingresar el usuario y password</string>
-    <string name="login_dialog_progress">Inicio de sesión</string>
+    <string name="login_dialog_progress">Autenticando usuario</string>
     <!-- END LOGIN -->
 
     <!-- INIT REGISTER -->
@@ -66,6 +66,8 @@
     <string name="new_request_subject">Asunto</string>
     <string name="new_request_request_type">Tipo Solicitud</string>
     <string name="new_request_send">Enviar</string>
+    <string name="new_request_empty_subject">Debe completar el campo Asunto</string>
+    <string name="new_request_empty_desc">Debe completar el campo Descrpción</string>
 
     <string-array name="array_request_type">
         <item>Carpintero</item>
