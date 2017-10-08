@@ -15,9 +15,11 @@ import pe.edu.upc.homeassistant.model.Request;
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
 
     private List<Request> requestList;
+    private RecyclerViewClickListener listener;
 
-    public RequestAdapter(List<Request> requestList) {
+    public RequestAdapter(List<Request> requestList, RecyclerViewClickListener listener) {
         this.requestList = requestList;
+        this.listener = listener;
     }
 
 
@@ -52,7 +54,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView txtTitle, txtDescription;
 
@@ -60,6 +62,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             super(itemView);
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtDescription = (TextView) itemView.findViewById(R.id.txtDescription);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.recyclerViewListClicked(view, getLayoutPosition());
         }
     }
 }

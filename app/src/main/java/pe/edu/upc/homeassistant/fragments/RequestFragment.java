@@ -44,7 +44,9 @@ import pe.edu.upc.homeassistant.activities.LoginActivity;
 import pe.edu.upc.homeassistant.activities.MainActivity;
 import pe.edu.upc.homeassistant.activities.NewRequestActivity;
 import pe.edu.upc.homeassistant.adapters.HistoryAdapter;
+import pe.edu.upc.homeassistant.adapters.RecyclerViewClickListener;
 import pe.edu.upc.homeassistant.adapters.RequestAdapter;
+import pe.edu.upc.homeassistant.model.Budge;
 import pe.edu.upc.homeassistant.model.Client;
 import pe.edu.upc.homeassistant.model.Expert;
 import pe.edu.upc.homeassistant.model.Request;
@@ -52,7 +54,8 @@ import pe.edu.upc.homeassistant.network.AssistantApiService;
 
 import static pe.edu.upc.homeassistant.Constants.EXTRA_REQUEST;
 
-public class RequestFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
+public class RequestFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener,
+        RecyclerViewClickListener {
 
     private static int CODE_NEW_REQUEST = 101;
     private RecyclerView recyclerRequest;
@@ -82,7 +85,7 @@ public class RequestFragment extends Fragment implements View.OnClickListener, S
         fabNewRequest = (FloatingActionButton) view.findViewById(R.id.fabNewRequest);
         swipeRequests = (SwipeRefreshLayout) view.findViewById(R.id.swipeRequests);
 
-        historyAdapter = new RequestAdapter(lsRequest);
+        historyAdapter = new RequestAdapter(lsRequest, this);
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerRequest.setItemAnimator(new DefaultItemAnimator());
         recyclerRequest.setAdapter(historyAdapter);
@@ -110,12 +113,6 @@ public class RequestFragment extends Fragment implements View.OnClickListener, S
 
     @Override
     public void onRefresh() {
-       /* adapter.clear();
-        // ...the data has come back, add new items to your adapter...
-        adapter.addAll(...);
-        // Now we call setRefreshing(false) to signal refresh has finished
-        swipeContainer.setRefreshing(false);*/
-
         callGetRequest();
     }
 
@@ -150,6 +147,7 @@ public class RequestFragment extends Fragment implements View.OnClickListener, S
 
                             historyAdapter.setRequestList(lsRequest);
                             historyAdapter.notifyDataSetChanged();
+                            swipeRequests.setRefreshing(false);
                             progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -171,4 +169,9 @@ public class RequestFragment extends Fragment implements View.OnClickListener, S
         requestQueue.add(postRequest);
     }
 
+    @Override
+    public void recyclerViewListClicked(View view, int position) {
+        List<Budge> budges = lsRequest.get(position).getBudges();
+        Toast.makeText(context, "Mejor Precio: "+budges.get(position).getPrice(), Toast.LENGTH_LONG).show();
+    }
 }

@@ -16,6 +16,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     private List<Request> requestList;
 
+
     public HistoryAdapter(List<Request> requestList) {
         this.requestList = requestList;
     }
