@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,12 +20,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +46,7 @@ import pe.edu.upc.homeassistant.activities.NewRequestActivity;
 import pe.edu.upc.homeassistant.adapters.HistoryAdapter;
 import pe.edu.upc.homeassistant.adapters.RequestAdapter;
 import pe.edu.upc.homeassistant.model.Client;
+import pe.edu.upc.homeassistant.model.Expert;
 import pe.edu.upc.homeassistant.model.Request;
 import pe.edu.upc.homeassistant.network.AssistantApiService;
 
@@ -52,8 +60,8 @@ public class RequestFragment extends Fragment implements View.OnClickListener, S
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton fabNewRequest;
     private SwipeRefreshLayout swipeRequests;
-    private TaskRequests taskRequests;
     private Context context;
+    public RequestQueue requestQueue;
     ProgressDialog progressDialog;
 
     List<Request> lsRequest = new ArrayList<>();
@@ -66,6 +74,8 @@ public class RequestFragment extends Fragment implements View.OnClickListener, S
                              Bundle savedInstanceState) {
 
         context = getContext();
+        progressDialog = new ProgressDialog(context);
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         View view = inflater.inflate(R.layout.fragment_request, container, false);
 
         recyclerRequest = (RecyclerView) view.findViewById(R.id.recyclerRequest);
@@ -105,75 +115,60 @@ public class RequestFragment extends Fragment implements View.OnClickListener, S
         adapter.addAll(...);
         // Now we call setRefreshing(false) to signal refresh has finished
         swipeContainer.setRefreshing(false);*/
+
+        callGetRequest();
     }
 
-    private void callGetRequests(){
+    private void callGetRequest() {
 
-        //TODO: Validar la funcionalidad del servicio
-        AndroidNetworking.post(AssistantApiService.GET_REQUESTS)
-                .addBodyParameter("type", "1")
-                .setPriority(Priority.MEDIUM)
-                .setTag(getString(R.string.app_name))
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
+        progressDialog.setMessage(getString(R.string.login_dialog_progress));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        JSONObject client = new JSONObject();
+        try {
+            client.put("idusuario", Client.from(context).getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST,
+                AssistantApiService.GET_REQUESTS, client,
+                new Response.Listener<JSONObject>()
+                {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            if("error".equalsIgnoreCase(response.getString("status"))){
-                                Log.e(getString(R.string.app_name), response.getString("message"));
-                                return;
-                            }
-                            Boolean status = response.getBoolean("status");
+                            JSONArray jsonArray = response.getJSONArray("solicitudes");
+                            lsRequest = new ArrayList<>();
+                            for (int i = 0; i < jsonArray.length(); i++)
+                                try {
+                                    lsRequest.add(Request.from(jsonArray.getJSONObject(i)));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
-                            if(status == true){
-                                Toast.makeText(context, "Ok", Toast.LENGTH_LONG).show();
-                                Client client = Client.from(response.getJSONArray("object").getJSONObject(0));
-                            }else{
-                                Toast toast = Toast.makeText(context, "Incorrecto", Toast.LENGTH_LONG);
-                                toast.show();
-                            }
+                            historyAdapter.setRequestList(lsRequest);
+                            historyAdapter.notifyDataSetChanged();
+                            progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            progressDialog.dismiss();
                         }
                     }
-
+                },
+                new Response.ErrorListener()
+                {
                     @Override
-                    public void onError(ANError anError) {
-                        Log.e(getString(R.string.app_name), anError.getLocalizedMessage());
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", "error");
+                        progressDialog.dismiss();
                     }
-                });
+                }
+        );
+
+        requestQueue.add(postRequest);
     }
 
-    public class TaskRequests extends AsyncTask {
-
-        private String user;
-        private String password;
-
-        public TaskRequests(String user, String password) {
-            super();
-            this.user = user;
-            this.password = password;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog.setMessage(getString(R.string.login_dialog_progress));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-
-            callGetRequests();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            progressDialog.dismiss();
-        }
-    }
 }

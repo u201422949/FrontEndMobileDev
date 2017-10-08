@@ -95,13 +95,15 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
             int category = spnRequestType.getSelectedItemPosition();
 
             if(validateFields(subject, description, category)) {
-                Skill skill = new Skill(spnRequestType.getSelectedItemPosition(), spnRequestType.getSelectedItem().toString());
+                Skill skill = new Skill(skills.get(spnRequestType.getSelectedItemPosition()).getCode(),
+                        spnRequestType.getSelectedItem().toString());
                 Client client = Client.from(context);
                 Request request = new Request(client, skill, edtDescription.getText().toString(), edtSubject.getText().toString());
 
                 Intent intent = new Intent(NewRequestActivity.this, ExpertsActivity.class);
                 intent.putExtra("request", request);
                 startActivityForResult(intent, 2);
+                finish();
             }
         }
     }
@@ -130,7 +132,6 @@ public class NewRequestActivity extends AppCompatActivity implements View.OnClic
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        JSONObject client = new JSONObject();
         JsonObjectRequest postRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, AssistantApiService.GET_SKILLS,
                 null,
                 new Response.Listener<JSONObject>()

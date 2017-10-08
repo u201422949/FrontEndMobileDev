@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +64,7 @@ public class ExpertsActivity extends AppCompatActivity implements View.OnClickLi
     private ExpertsAdapter expertsAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton fabExperts;
+    private CoordinatorLayout cooExpert;
     private Context context;
     private Request request;
     ProgressDialog progressDialog;
@@ -81,6 +83,7 @@ public class ExpertsActivity extends AppCompatActivity implements View.OnClickLi
 
         recyclerRequest = (RecyclerView) findViewById(R.id.recyclerRequest);
         fabExperts = (FloatingActionButton) findViewById(R.id.fabExperts);
+        cooExpert = (CoordinatorLayout) findViewById(R.id.cooExpert);
 
         expertsAdapter = new ExpertsAdapter(experts, selectedExperts);
         layoutManager = new LinearLayoutManager(ExpertsActivity.this);
@@ -110,7 +113,7 @@ public class ExpertsActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if(view.equals(fabExperts)){
-            startActivity(new Intent(context, MainActivity.class));
+            callRequestBudgetService();
         }
     }
 
@@ -181,4 +184,71 @@ public class ExpertsActivity extends AppCompatActivity implements View.OnClickLi
 
         requestQueue.add(postRequest);
     }
+
+    private void callRequestBudgetService(){
+
+        if (selectedExperts.size() == 0){
+            Snackbar snackbar = Snackbar
+                    .make(cooExpert, "Debe seleccionar por lo menos un especialista", Snackbar.LENGTH_LONG);
+
+            snackbar.show();
+        }
+
+        progressDialog.setMessage("Enviando Solicitud de Cotización");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        JSONObject expertParam = new JSONObject();
+        JSONArray array = new JSONArray();
+        JSONObject objExpert;
+
+        try {
+
+            for (int i = 0; i < selectedExperts.size(); i++) {
+                objExpert = new JSONObject();
+                objExpert.put("idusuario", selectedExperts.get(i).getId());
+                array.put(objExpert);
+            }
+
+            expertParam.put("idusuario",String.valueOf(request.getSkill().getCode()));
+            expertParam.put("idespecialidad",request.getClient().getId());
+            expertParam.put("asunto",request.getSubject());
+            expertParam.put("descripcion",request.getDescription());
+            expertParam.put("cotizaciones", array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST,
+                AssistantApiService.SEND_REQUEST_BUDGET_URL, expertParam,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            Toast.makeText(context, response.getString("message"), Toast.LENGTH_LONG).show();
+                            finish();
+
+                            progressDialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progressDialog.dismiss();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", "error");
+                        progressDialog.dismiss();
+                    }
+                }
+        );
+
+        requestQueue.add(postRequest);
+    }
+
 }

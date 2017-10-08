@@ -20,6 +20,15 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         this.requestList = requestList;
     }
 
+
+    public List<Request> getRequestList() {
+        return requestList;
+    }
+
+    public void setRequestList(List<Request> requestList) {
+        this.requestList = requestList;
+    }
+
     @Override
     public RequestAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_history_item, parent, false);
@@ -29,7 +38,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     @Override
     public void onBindViewHolder(RequestAdapter.ViewHolder holder, int position) {
         Request request = requestList.get(position);
-        holder.imgThumbnail.setImageResource(R.mipmap.ic_launcher);
         holder.txtDescription.setText(request.getDescription());
         holder.txtTitle.setText(request.getSubject());
     }
@@ -46,14 +54,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView imgThumbnail;
         private TextView txtTitle, txtDescription;
 
         public ViewHolder(View itemView) {
             super(itemView);
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtDescription = (TextView) itemView.findViewById(R.id.txtDescription);
-            imgThumbnail = (ImageView) itemView.findViewById(R.id.imgThumbnail);
         }
     }
 }

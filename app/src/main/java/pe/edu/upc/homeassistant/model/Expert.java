@@ -3,6 +3,8 @@ package pe.edu.upc.homeassistant.model;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +25,7 @@ public class Expert implements Serializable{
     private float rate;
     private List<Skill> skills;
     private String urlPhoto;
+    @SerializedName("idusuario")
     private int id;
 
     public int getId() {
